@@ -19,6 +19,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "univuniv-android"
+rootProject.name = "UnivUniv Android"
 include(":app")
  
