@@ -1,0 +1,73 @@
+[versions]
+agp = "8.5.2"
+kotlin = "2.0.21"
+core-ktx = "1.15.0"
+junit = "4.13.2"
+android-junit = "1.2.1"
+espressoCore = "3.6.1"
+appcompat = "1.7.0"
+material = "1.12.0"
+activity = "1.9.3"
+lifecycle = "2.8.7"
+compose-plugin = "1.6.11"
+ktor = "2.3.12"
+serialization = "1.7.2"
+pluto = "2.2.1"
+hilt = "2.52"
+ksp = "2.0.21-1.0.25"
+coil = "2.7.0"
+room = "2.6.1"
+navigation = "2.8.5"
+hilt-compose = "1.2.0"
+turbine = "1.2.0"
+
+[libraries]
+androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "core-ktx" }
+junit = { group = "junit", name = "junit", version.ref = "junit" }
+androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "android-junit" }
+androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
+androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
+material = { group = "com.google.android.material", name = "material", version.ref = "material" }
+androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activity" }
+lifecycle-viewmodel-ktx = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-ktx", version.ref = "lifecycle" }
+lifecycle-livedata-ktx = { group = "androidx.lifecycle", name = "lifecycle-livedata-ktx", version.ref = "lifecycle" }
+lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycle" }
+ktor-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
+ktor-content-negotiation = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktor" }
+ktor-serialization = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor" }
+ktor-auth = { module = "io.ktor:ktor-client-auth", version.ref = "ktor" }
+ktor-logging = { module = "io.ktor:ktor-client-logging", version.ref = "ktor" }
+ktor-android = { module = "io.ktor:ktor-client-android", version.ref = "ktor" }
+kotlinx-serialization = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "serialization" }
+pluto = { group = "com.plutolib", name = "pluto", version.ref = "pluto" }
+pluto-noop = { group = "com.plutolib", name = "pluto-no-op", version.ref = "pluto" }
+pluto-network = { module = "com.plutolib.plugins:network", version.ref = "pluto" }
+pluto-network-noop = { module = "com.plutolib.plugins:network-no-op", version.ref = "pluto" }
+pluto-ktor = { group = "com.plutolib.plugins", name = "network-interceptor-ktor", version.ref = "pluto" }
+pluto-ktor-noop = { group = "com.plutolib.plugins", name = "network-interceptor-ktor-no-op", version.ref = "pluto" }
+hilt-android-gradle-plugin = { group = "com.google.dagger", name = "hilt-android-gradle-plugin", version.ref = "hilt" }
+hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
+hilt-compiler = { group = "com.google.dagger", name = "hilt-android-compiler", version.ref = "hilt" }
+coil = { module = "io.coil-kt:coil-compose", version.ref = "coil" }
+room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
+room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
+room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
+compose-navigation = { module = "androidx.navigation:navigation-compose", version.ref = "navigation" }
+hilt-navigation = { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "hilt-compose" }
+turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
+
+[plugins]
+android-application = { id = "com.android.application", version.ref = "agp" }
+jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+jetbrains-compose = { id = "org.jetbrains.compose", version.ref = "compose-plugin" }
+compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+android-parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref = "kotlin" }
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+
+[bundles]
+android-base = ["androidx-core-ktx", "androidx-activity-compose", "androidx-appcompat"]
+lifecycle = ["lifecycle-viewmodel-ktx", "lifecycle-livedata-ktx", "lifecycle-runtime-ktx"]
+ktor = ["ktor-core", "ktor-content-negotiation", "ktor-serialization", "ktor-auth",
+    "ktor-logging", "ktor-android"]
+pluto = ["pluto", "pluto-network", "pluto-ktor"]
+pluto-noop = ["pluto-noop", "pluto-network-noop", "pluto-ktor-noop"]
