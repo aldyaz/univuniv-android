@@ -4,18 +4,21 @@ import com.aldyaz.univuniv.core.network.HttpResult
 import com.aldyaz.univuniv.data.local.UniversityLocalDataSource
 import com.aldyaz.univuniv.data.remote.UniversityRemoteDataSource
 import com.aldyaz.univuniv.domain.mapper.ExceptionToDomainMapper
+import com.aldyaz.univuniv.domain.mapper.UniversityDbToDomainMapper
 import com.aldyaz.univuniv.domain.mapper.UniversityDtoToDomainMapper
 import com.aldyaz.univuniv.domain.mapper.UniversityToDbMapper
 import com.aldyaz.univuniv.domain.model.UniversityDomainModel
 import com.aldyaz.univuniv.domain.repository.UniversityRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.map
 
 class UniversityRepositoryImpl(
     private val localDataSource: UniversityLocalDataSource,
     private val remoteDataSource: UniversityRemoteDataSource,
     private val universityDtoToDomainMapper: UniversityDtoToDomainMapper,
     private val universityToDbMapper: UniversityToDbMapper,
+    private val universityDbToDomainMapper: UniversityDbToDomainMapper,
     private val exceptionToDomainMapper: ExceptionToDomainMapper
 ) : UniversityRepository {
 
@@ -32,6 +35,14 @@ class UniversityRepositoryImpl(
                 }
 
                 is HttpResult.Error -> throw exceptionToDomainMapper(result.exception)
+            }
+        }
+    }
+
+    override fun getLocalUniversities(): Flow<List<UniversityDomainModel>> {
+        return localDataSource.getUniversities().map { items ->
+            List(items.size) {
+                universityDbToDomainMapper(items[it])
             }
         }
     }
