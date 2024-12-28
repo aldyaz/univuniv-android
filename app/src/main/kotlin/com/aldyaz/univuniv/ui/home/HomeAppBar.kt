@@ -25,7 +25,7 @@ fun HomeAppBar(
                 style = MaterialTheme.typography.titleLarge
             )
         },
-        navigationIcon = {
+        actions = {
             IconButton(
                 onClick = onClickSearch,
                 content = {
