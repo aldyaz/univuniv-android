@@ -1,8 +1,8 @@
 package com.aldyaz.univuniv.domain.mapper
 
-import com.aldyaz.univuniv.core.domain.CloudApiException
-import com.aldyaz.univuniv.core.domain.DomainException
-import com.aldyaz.univuniv.core.domain.UnknownException
+import com.aldyaz.univuniv.core.domain.exception.CloudApiException
+import com.aldyaz.univuniv.core.domain.exception.DomainException
+import com.aldyaz.univuniv.core.domain.exception.UnknownException
 import com.aldyaz.univuniv.core.network.exception.HttpException
 import com.aldyaz.univuniv.core.network.exception.HttpStatusException
 
