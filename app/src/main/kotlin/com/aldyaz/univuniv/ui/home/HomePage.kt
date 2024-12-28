@@ -14,12 +14,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.aldyaz.univuniv.presentation.intent.HomeIntent
 import com.aldyaz.univuniv.presentation.model.UniversityPresentationModel
 import com.aldyaz.univuniv.presentation.state.HomeState
 import com.aldyaz.univuniv.presentation.viewmodel.HomeViewModel
+import com.aldyaz.univuniv.ui.common.FullError
+import com.aldyaz.univuniv.ui.common.FullLoading
 
 @Composable
 fun HomePage(
+    onClickSearch: () -> Unit,
+    onClickItem: (String) -> Unit,
     viewModel: HomeViewModel = hiltViewModel()
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
@@ -28,7 +33,9 @@ fun HomePage(
         state = state,
         onClickSearch = {},
         onClickItem = {},
-        onClickRetry = {}
+        onClickRetry = {
+            viewModel.onIntent(HomeIntent.Retry)
+        }
     )
 }
 
@@ -48,6 +55,7 @@ fun HomeScaffold(
         content = { contentPadding ->
             HomeContent(
                 state = state,
+                onClickRetry = onClickRetry,
                 onClickItem = onClickItem,
                 modifier = Modifier
                     .padding(contentPadding)
@@ -60,6 +68,7 @@ fun HomeScaffold(
 @Composable
 fun HomeContent(
     state: HomeState,
+    onClickRetry: () -> Unit,
     onClickItem: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -67,8 +76,19 @@ fun HomeContent(
         modifier = modifier,
         content = {
             when {
-                state.loading -> {}
-                state.error != null -> {}
+                state.loading -> {
+                    FullLoading(
+                        modifier = Modifier.fillMaxSize()
+                    )
+                }
+
+                state.isError -> {
+                    FullError(
+                        onRetryClick = onClickRetry,
+                        modifier = Modifier.fillMaxSize()
+                    )
+                }
+
                 state.success -> {
                     HomeListContent(
                         universities = state.data,
