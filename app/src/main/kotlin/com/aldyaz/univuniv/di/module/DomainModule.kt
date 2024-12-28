@@ -34,9 +34,11 @@ class DomainModule {
     @Provides
     fun provideUniversityRepository(
         localDataSource: UniversityLocalDataSource,
-        remoteDataSource: UniversityRemoteDataSource
+        remoteDataSource: UniversityRemoteDataSource,
+        exceptionToDomainMapper: ExceptionToDomainMapper
     ): UniversityRepository = UniversityRepositoryImpl(
         localDataSource = localDataSource,
-        remoteDataSource = remoteDataSource
+        remoteDataSource = remoteDataSource,
+        exceptionToDomainMapper = exceptionToDomainMapper
     )
 }
