@@ -7,6 +7,8 @@ interface UniversityRepository {
 
     fun getRemoteUniversities(): Flow<List<UniversityDomainModel>>
 
+    fun getLocalUniversities(): Flow<List<UniversityDomainModel>>
+
     fun saveUniversities(items: List<UniversityDomainModel>): Flow<Unit>
 
 }
