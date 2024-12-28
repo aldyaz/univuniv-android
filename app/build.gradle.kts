@@ -6,6 +6,7 @@ plugins {
     alias(libs.plugins.android.parcelize)
     alias(libs.plugins.ksp)
     kotlin("plugin.serialization") version libs.versions.kotlin
+    id("dagger.hilt.android.plugin")
 }
 
 android {
