@@ -8,7 +8,6 @@ import com.aldyaz.univuniv.core.network.exception.InternalServerException
 import com.pluto.plugins.network.ktor.PlutoKtorInterceptor
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.android.Android
-import io.ktor.client.plugins.ClientRequestException
 import io.ktor.client.plugins.HttpResponseValidator
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.plugins.defaultRequest
@@ -53,13 +52,10 @@ class HttpClientFactory {
             install(PlutoKtorInterceptor)
 
             HttpResponseValidator {
-                handleResponseExceptionWithRequest { cause, _ ->
-                    val clientException = cause as? ClientRequestException
-                        ?: return@handleResponseExceptionWithRequest
-                    val exceptionResponse = clientException.response
-                    val status = exceptionResponse.status
+                validateResponse { response ->
+                    val status = response.status
                     throw HttpException(
-                        message = exceptionResponse.bodyAsText().ifEmpty {
+                        message = response.bodyAsText().ifEmpty {
                             HttpException.DEFAULT_ERROR_MESSAGE
                         },
                         cause = when (status) {

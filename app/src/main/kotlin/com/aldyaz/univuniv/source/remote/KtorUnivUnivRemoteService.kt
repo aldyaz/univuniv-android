@@ -11,7 +11,7 @@ class KtorUnivUnivRemoteService(
 
     override suspend fun getUniversities(): List<UniversityDto> {
         return apiCall {
-            httpClient.get("/")
+            httpClient.get("")
         }
     }
 }
