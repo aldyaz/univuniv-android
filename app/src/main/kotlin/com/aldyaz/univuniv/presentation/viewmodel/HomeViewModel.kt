@@ -42,7 +42,11 @@ class HomeViewModel @Inject constructor(
         initialValue = HomeState.Initial
     )
 
-    override fun onIntent(intent: HomeIntent) {}
+    override fun onIntent(intent: HomeIntent) {
+        when (intent) {
+            is HomeIntent.Retry -> {}
+        }
+    }
 
     private fun getUniversities() = getUniversitiesUseCase(Unit)
         .onStart {
