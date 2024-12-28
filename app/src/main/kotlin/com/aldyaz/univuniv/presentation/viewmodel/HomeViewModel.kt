@@ -8,66 +8,66 @@ import com.aldyaz.univuniv.presentation.intent.HomeIntent
 import com.aldyaz.univuniv.presentation.mapper.UniversityToPresentationMapper
 import com.aldyaz.univuniv.presentation.state.HomeState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val getUniversitiesUseCase: GetUniversitiesUseCase,
-    private val exceptionToPresentationMapper: ExceptionToPresentationMapper,
-    universityToPresentationMapper: UniversityToPresentationMapper
+    private val universityToPresentationMapper: UniversityToPresentationMapper,
+    private val exceptionToPresentationMapper: ExceptionToPresentationMapper
 ) : BaseViewModel<HomeIntent>() {
 
     private val _state = MutableStateFlow(HomeState.Initial)
-    val state = combine(
-        _state,
-        getUniversities()
-    ) { state, universities ->
-        var newState = state
-        newState = newState.copy(
-            data = List(universities.size) {
-                universityToPresentationMapper(universities[it])
-            }
-        )
-        newState
-    }.stateIn(
+    val state = _state.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(5000),
         initialValue = HomeState.Initial
     )
 
+    init {
+        onIntent(HomeIntent.Fetch)
+    }
+
     override fun onIntent(intent: HomeIntent) {
         when (intent) {
-            is HomeIntent.Retry -> {}
+            is HomeIntent.Fetch -> fetchUniversities()
         }
     }
 
-    private fun getUniversities() = getUniversitiesUseCase(Unit)
-        .onStart {
-            _state.updateState {
-                copy(
-                    loading = true,
-                    error = null
-                )
+    private fun fetchUniversities() = viewModelScope.launch(Dispatchers.IO) {
+        getUniversitiesUseCase(Unit)
+            .onStart {
+                _state.updateState {
+                    copy(
+                        loading = true,
+                        error = null
+                    )
+                }
             }
-        }
-        .catch {
-            _state.updateState {
-                copy(
-                    loading = false,
-                    error = exceptionToPresentationMapper(it)
-                )
+            .catch {
+                _state.updateState {
+                    copy(
+                        loading = false,
+                        error = exceptionToPresentationMapper(it)
+                    )
+                }
             }
-        }
-        .onCompletion {
-            _state.updateState {
-                copy(loading = false)
+            .collect { items ->
+                _state.updateState {
+                    copy(
+                        loading = false,
+                        data = List(items.size) {
+                            universityToPresentationMapper(items[it])
+                        }
+                    )
+                }
             }
-        }
+    }
 }

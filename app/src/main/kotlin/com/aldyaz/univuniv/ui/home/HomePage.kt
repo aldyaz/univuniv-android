@@ -34,7 +34,7 @@ fun HomePage(
         onClickSearch = {},
         onClickItem = {},
         onClickRetry = {
-            viewModel.onIntent(HomeIntent.Retry)
+            viewModel.onIntent(HomeIntent.Fetch)
         }
     )
 }
