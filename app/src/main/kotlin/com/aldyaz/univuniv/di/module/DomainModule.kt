@@ -4,6 +4,9 @@ import com.aldyaz.univuniv.data.local.UniversityLocalDataSource
 import com.aldyaz.univuniv.data.remote.UniversityRemoteDataSource
 import com.aldyaz.univuniv.data.repository.UniversityRepositoryImpl
 import com.aldyaz.univuniv.domain.mapper.ExceptionToDomainMapper
+import com.aldyaz.univuniv.domain.mapper.UniversityDbToDomainMapper
+import com.aldyaz.univuniv.domain.mapper.UniversityDtoToDomainMapper
+import com.aldyaz.univuniv.domain.mapper.UniversityToDbMapper
 import com.aldyaz.univuniv.domain.repository.UniversityRepository
 import dagger.Module
 import dagger.Provides
@@ -16,6 +19,17 @@ class DomainModule {
 
     @Provides
     fun provideExceptionToDomainMapper(): ExceptionToDomainMapper = ExceptionToDomainMapper()
+
+    @Provides
+    fun provideUniversityDtoToDomainMapper(): UniversityDtoToDomainMapper =
+        UniversityDtoToDomainMapper()
+
+    @Provides
+    fun provideUniversityDbToDomainMapper(): UniversityDbToDomainMapper =
+        UniversityDbToDomainMapper()
+
+    @Provides
+    fun provideUniversityToDbMapper(): UniversityToDbMapper = UniversityToDbMapper()
 
     @Provides
     fun provideUniversityRepository(

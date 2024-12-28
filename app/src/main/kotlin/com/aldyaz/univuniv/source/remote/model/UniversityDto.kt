@@ -4,7 +4,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class UniversitiesDto(
+data class UniversityDto(
     @SerialName("country")
     val country: String? = null,
     @SerialName("state-province")
