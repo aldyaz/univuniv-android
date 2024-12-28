@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">UnivUniv</string>
+    <string name="label_default_error_text">An Error Occured</string>
+    <string name="label_try_again">Try Again</string>
 </resources>

@@ -9,6 +9,7 @@ data class HomeState(
     val data: List<UniversityPresentationModel> = emptyList()
 ) {
 
+    val isError = error != null
     val success = !loading && error == null
 
     companion object {
