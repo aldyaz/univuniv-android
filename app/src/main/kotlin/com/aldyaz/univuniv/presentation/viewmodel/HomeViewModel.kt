@@ -2,6 +2,7 @@ package com.aldyaz.univuniv.presentation.viewmodel
 
 import androidx.lifecycle.viewModelScope
 import com.aldyaz.univuniv.core.presentation.BaseViewModel
+import com.aldyaz.univuniv.core.presentation.ExceptionToPresentationMapper
 import com.aldyaz.univuniv.domain.interactor.GetUniversitiesUseCase
 import com.aldyaz.univuniv.presentation.intent.HomeIntent
 import com.aldyaz.univuniv.presentation.mapper.UniversityToPresentationMapper
@@ -19,6 +20,7 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val getUniversitiesUseCase: GetUniversitiesUseCase,
+    private val exceptionToPresentationMapper: ExceptionToPresentationMapper,
     universityToPresentationMapper: UniversityToPresentationMapper
 ) : BaseViewModel<HomeIntent>() {
 
@@ -53,7 +55,10 @@ class HomeViewModel @Inject constructor(
         }
         .catch {
             _state.updateState {
-                copy()
+                copy(
+                    loading = false,
+                    error = exceptionToPresentationMapper(it)
+                )
             }
         }
         .onCompletion {
