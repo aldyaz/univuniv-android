@@ -35,10 +35,14 @@ class DomainModule {
     fun provideUniversityRepository(
         localDataSource: UniversityLocalDataSource,
         remoteDataSource: UniversityRemoteDataSource,
+        universityDtoToDomainMapper: UniversityDtoToDomainMapper,
+        universityToDbMapper: UniversityToDbMapper,
         exceptionToDomainMapper: ExceptionToDomainMapper
     ): UniversityRepository = UniversityRepositoryImpl(
         localDataSource = localDataSource,
         remoteDataSource = remoteDataSource,
+        universityDtoToDomainMapper = universityDtoToDomainMapper,
+        universityToDbMapper = universityToDbMapper,
         exceptionToDomainMapper = exceptionToDomainMapper
     )
 }

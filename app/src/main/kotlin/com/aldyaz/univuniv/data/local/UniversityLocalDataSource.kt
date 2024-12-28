@@ -9,6 +9,6 @@ interface UniversityLocalDataSource {
 
     fun getUniversitiesByName(name: String): Flow<List<UniversityDbModel>>
 
-    suspend fun saveUniversities(vararg item: UniversityDbModel)
+    suspend fun saveUniversities(items: List<UniversityDbModel>)
 
 }
