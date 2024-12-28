@@ -19,6 +19,7 @@ import io.ktor.client.statement.bodyAsText
 import io.ktor.http.ContentType
 import io.ktor.http.HttpStatusCode
 import io.ktor.http.contentType
+import io.ktor.http.isSuccess
 import io.ktor.http.path
 import io.ktor.http.takeFrom
 import io.ktor.serialization.kotlinx.json.json
@@ -54,18 +55,20 @@ class HttpClientFactory {
             HttpResponseValidator {
                 validateResponse { response ->
                     val status = response.status
-                    throw HttpException(
-                        message = response.bodyAsText().ifEmpty {
-                            HttpException.DEFAULT_ERROR_MESSAGE
-                        },
-                        cause = when (status) {
-                            HttpStatusCode.BadRequest -> BadRequestException
-                            HttpStatusCode.InternalServerError -> InternalServerException
-                            else -> HttpStatusException(
-                                code = status.value
-                            )
-                        }
-                    )
+                    if (!status.isSuccess()) {
+                        throw HttpException(
+                            message = response.bodyAsText().ifEmpty {
+                                HttpException.DEFAULT_ERROR_MESSAGE
+                            },
+                            cause = when (status) {
+                                HttpStatusCode.BadRequest -> BadRequestException
+                                HttpStatusCode.InternalServerError -> InternalServerException
+                                else -> HttpStatusException(
+                                    code = status.value
+                                )
+                            }
+                        )
+                    }
                 }
             }
 
