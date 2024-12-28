@@ -19,6 +19,6 @@ interface UniversityDao {
     ): Flow<List<UniversityDbModel>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun saveUniversities(vararg item: UniversityDbModel)
+    fun saveUniversities(items: List<UniversityDbModel>)
 
 }

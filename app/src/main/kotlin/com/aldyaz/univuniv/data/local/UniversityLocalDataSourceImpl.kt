@@ -17,7 +17,7 @@ class UniversityLocalDataSourceImpl @Inject constructor(
         return dao.getUniversitiesByName(name)
     }
 
-    override suspend fun saveUniversities(vararg item: UniversityDbModel) {
-        dao.saveUniversities(*item)
+    override suspend fun saveUniversities(items: List<UniversityDbModel>) {
+        dao.saveUniversities(items)
     }
 }
