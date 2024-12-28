@@ -9,8 +9,8 @@ class UniversityDbToDomainMapper : (UniversityDbModel) -> UniversityDomainModel 
         return UniversityDomainModel(
             name = p1.name,
             country = p1.country,
-            domains = listOf(),
-            webPages = listOf()
+            domains = p1.domains,
+            webPages = p1.webPages
         )
     }
 }

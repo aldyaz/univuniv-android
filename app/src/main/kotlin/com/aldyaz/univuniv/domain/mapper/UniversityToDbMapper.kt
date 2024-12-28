@@ -9,10 +9,8 @@ class UniversityToDbMapper : (UniversityDomainModel) -> UniversityDbModel {
         return UniversityDbModel(
             name = p1.name,
             country = p1.country,
-            stateProvince = "",
-            alphaTwoCode = "",
-            domains = "",
-            webPages = ""
+            domains = p1.domains,
+            webPages = p1.webPages
         )
     }
 }

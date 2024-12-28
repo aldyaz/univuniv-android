@@ -10,20 +10,14 @@ data class UniversityDbModel(
     val id: Int = 0,
     val name: String,
     val country: String,
-    @ColumnInfo(COLUMN_STATE_PROVINCE)
-    val stateProvince: String,
-    @ColumnInfo(COLUMN_ALPHA_TWO_CODE)
-    val alphaTwoCode: String,
-    val domains: String,
+    val domains: List<String>,
     @ColumnInfo(COLUMN_WEB_PAGES)
-    val webPages: String
+    val webPages: List<String>
 ) {
 
     companion object {
         const val TABLE_NAME = "university"
 
-        const val COLUMN_STATE_PROVINCE = "state_province"
-        const val COLUMN_ALPHA_TWO_CODE = "alpha_two_code"
         const val COLUMN_WEB_PAGES = "web_pages"
     }
 }

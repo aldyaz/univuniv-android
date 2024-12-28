@@ -4,6 +4,8 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
+import com.aldyaz.univuniv.source.local.converter.RoomListStringConverter
 import com.aldyaz.univuniv.source.local.dao.UniversityDao
 import com.aldyaz.univuniv.source.local.model.UniversityDbModel
 
@@ -14,6 +16,7 @@ import com.aldyaz.univuniv.source.local.model.UniversityDbModel
     ],
     exportSchema = false
 )
+@TypeConverters(RoomListStringConverter::class)
 abstract class UnivUnivDatabase : RoomDatabase() {
 
     companion object {
