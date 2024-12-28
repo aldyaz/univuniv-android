@@ -18,3 +18,4 @@ out/
 *.apk
 *.aab
 *.ap_
+.kotlin/
