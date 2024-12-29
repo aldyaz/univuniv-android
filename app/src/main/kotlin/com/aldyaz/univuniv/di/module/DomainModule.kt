@@ -50,7 +50,7 @@ class DomainModule {
     )
 
     @Provides
-    fun provideGetUniversities(
+    fun provideGetUniversitiesUseCase(
         universityRepository: UniversityRepository
     ): GetUniversitiesUseCase = GetUniversitiesUseCase(universityRepository)
 }
