@@ -28,6 +28,9 @@ import com.aldyaz.univuniv.presentation.intent.SearchIntent
 import com.aldyaz.univuniv.presentation.model.UniversityPresentationModel
 import com.aldyaz.univuniv.presentation.state.SearchState
 import com.aldyaz.univuniv.presentation.viewmodel.SearchViewModel
+import com.aldyaz.univuniv.ui.common.FullError
+import com.aldyaz.univuniv.ui.common.FullLoading
+import com.aldyaz.univuniv.ui.common.ScreenEnterObserver
 import com.aldyaz.univuniv.ui.home.HomeUniversityItem
 
 @Composable
@@ -37,12 +40,19 @@ fun SearchPage(
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
 
+    ScreenEnterObserver {
+        viewModel.onIntent(SearchIntent.Fetch())
+    }
+
     SearchScaffold(
         state = state,
         onQueryChange = {
             viewModel.onIntent(SearchIntent.Fetch(it))
         },
-        onClickItem = onClickItem
+        onClickItem = onClickItem,
+        onRetryClick = {
+            viewModel.onIntent(SearchIntent.Fetch())
+        }
     )
 }
 
@@ -50,7 +60,8 @@ fun SearchPage(
 fun SearchScaffold(
     state: SearchState,
     onQueryChange: (String) -> Unit,
-    onClickItem: (String) -> Unit
+    onClickItem: (String) -> Unit,
+    onRetryClick: () -> Unit
 ) {
     Scaffold(
         topBar = {
@@ -86,8 +97,9 @@ fun SearchScaffold(
         },
         content = { contentPadding ->
             SearchContent(
-                universities = state.data,
+                state = state,
                 onClickItem = onClickItem,
+                onRetryClick = onRetryClick,
                 modifier = Modifier
                     .padding(contentPadding)
                     .fillMaxSize()
@@ -98,6 +110,41 @@ fun SearchScaffold(
 
 @Composable
 fun SearchContent(
+    state: SearchState,
+    onClickItem: (String) -> Unit,
+    onRetryClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Box(
+        modifier = modifier,
+        content = {
+            when {
+                state.loading -> {
+                    FullLoading(
+                        modifier = Modifier.fillMaxSize()
+                    )
+                }
+
+                state.isError -> {
+                    FullError(
+                        onRetryClick = onRetryClick,
+                        modifier = Modifier.fillMaxSize()
+                    )
+                }
+
+                state.isSuccess -> {
+                    SearchList(
+                        universities = state.data,
+                        onClickItem = onClickItem
+                    )
+                }
+            }
+        }
+    )
+}
+
+@Composable
+fun SearchList(
     universities: List<UniversityPresentationModel>,
     onClickItem: (String) -> Unit,
     modifier: Modifier = Modifier
