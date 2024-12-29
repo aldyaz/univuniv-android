@@ -20,6 +20,7 @@ navigation = "2.8.5"
 hilt-compose = "1.2.0"
 turbine = "1.2.0"
 junit5 = "5.11.4"
+mockk = "1.13.14"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "core-ktx" }
@@ -55,6 +56,8 @@ compose-navigation = { module = "androidx.navigation:navigation-compose", versio
 hilt-navigation = { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "hilt-compose" }
 turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
 junit5 = { module = "org.junit.jupiter:junit-jupiter", version.ref = "junit5" }
+mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
+mockk-android = { module = "io.mockk:mockk-android", version.ref = "mockk" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
