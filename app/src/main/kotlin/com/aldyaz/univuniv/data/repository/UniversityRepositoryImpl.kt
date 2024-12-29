@@ -10,7 +10,9 @@ import com.aldyaz.univuniv.domain.mapper.UniversityToDbMapper
 import com.aldyaz.univuniv.domain.model.UniversityDomainModel
 import com.aldyaz.univuniv.domain.repository.UniversityRepository
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flatMapMerge
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 
 class UniversityRepositoryImpl(
@@ -22,38 +24,28 @@ class UniversityRepositoryImpl(
     private val exceptionToDomainMapper: ExceptionToDomainMapper
 ) : UniversityRepository {
 
-    override fun getRemoteUniversities(): Flow<List<UniversityDomainModel>> {
-        return flow {
-            when (val result = remoteDataSource.getUniversities()) {
-                is HttpResult.Success -> {
-                    val items = result.data
-                    emit(
-                        List(items.size) {
-                            universityDtoToDomainMapper(items[it])
-                        }
-                    )
-                }
-
-                is HttpResult.Error -> throw exceptionToDomainMapper(result.exception)
-            }
-        }
-    }
-
-    override fun getLocalUniversities(): Flow<List<UniversityDomainModel>> {
-        return localDataSource.getUniversities().map { items ->
+    override fun getUniversities(): Flow<List<UniversityDomainModel>> =
+        localDataSource.getUniversities().map { items ->
             List(items.size) {
                 universityDbToDomainMapper(items[it])
             }
-        }
-    }
+        }.flatMapMerge { localItems ->
+            if (localItems.isEmpty()) {
+                flow {
+                    when (val result = remoteDataSource.getUniversities()) {
+                        is HttpResult.Success -> {
+                            val items = List(result.data.size) {
+                                universityDtoToDomainMapper(result.data[it])
+                            }
+                            localDataSource.saveUniversities(items.map(universityToDbMapper))
+                            emit(items)
+                        }
 
-    override fun saveUniversities(items: List<UniversityDomainModel>): Flow<Unit> {
-        return flow {
-            emit(
-                localDataSource.saveUniversities(
-                    items.map(universityToDbMapper)
-                )
-            )
+                        is HttpResult.Error -> throw exceptionToDomainMapper(result.exception)
+                    }
+                }
+            } else {
+                flowOf(localItems)
+            }
         }
-    }
 }
