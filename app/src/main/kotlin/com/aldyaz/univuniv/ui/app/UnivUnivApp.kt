@@ -8,6 +8,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.aldyaz.univuniv.ui.home.HomePage
 import com.aldyaz.univuniv.ui.home.HomeScreen
+import com.aldyaz.univuniv.ui.search.SearchPage
+import com.aldyaz.univuniv.ui.search.SearchScreen
 import com.aldyaz.univuniv.ui.theme.UnivUnivTheme
 
 @Composable
@@ -21,7 +23,16 @@ fun UnivUnivApp() {
         ) {
             composable<HomeScreen> {
                 HomePage(
-                    onClickSearch = { /*TODO*/ },
+                    onClickSearch = {
+                        navController.navigate(SearchScreen)
+                    },
+                    onClickItem = {
+                    }
+                )
+            }
+
+            composable<SearchScreen> {
+                SearchPage(
                     onClickItem = {
                     }
                 )

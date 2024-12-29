@@ -36,8 +36,8 @@ fun HomePage(
 
     HomeScaffold(
         state = state,
-        onClickSearch = {},
-        onClickItem = {},
+        onClickSearch = onClickSearch,
+        onClickItem = onClickItem,
         onClickRetry = {
             viewModel.onIntent(HomeIntent.Fetch)
         }
