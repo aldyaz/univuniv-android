@@ -1,6 +1,7 @@
 package com.aldyaz.univuniv.di.module
 
 import com.aldyaz.univuniv.core.presentation.ExceptionToPresentationMapper
+import com.aldyaz.univuniv.presentation.mapper.UniversitiesToPresentationMapper
 import com.aldyaz.univuniv.presentation.mapper.UniversityToPresentationMapper
 import dagger.Module
 import dagger.Provides
@@ -18,5 +19,12 @@ class PresentationModule {
     @Provides
     fun provideUniversityToPresentationMapper(): UniversityToPresentationMapper =
         UniversityToPresentationMapper()
+
+    @Provides
+    fun provideUniversitiesToPresentationMapper(
+        universityToPresentationMapper: UniversityToPresentationMapper
+    ): UniversitiesToPresentationMapper = UniversitiesToPresentationMapper(
+        universityToPresentationMapper
+    )
 
 }
