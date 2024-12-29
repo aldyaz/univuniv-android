@@ -75,6 +75,7 @@ dependencies {
     testImplementation(libs.turbine)
 
     androidTestImplementation(libs.junit)
+    androidTestImplementation(libs.turbine)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 }
