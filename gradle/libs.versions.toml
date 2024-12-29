@@ -57,6 +57,7 @@ compose-navigation = { module = "androidx.navigation:navigation-compose", versio
 hilt-navigation = { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "hilt-compose" }
 turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
 junit5 = { module = "org.junit.jupiter:junit-jupiter", version.ref = "junit5" }
+junit5-engine = { module = "org.junit.jupiter:junit-jupiter-engine", version.ref = "junit5" }
 mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
 mockk-android = { module = "io.mockk:mockk-android", version.ref = "mockk" }
 coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }

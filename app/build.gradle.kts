@@ -43,6 +43,10 @@ android {
     }
 }
 
+tasks.withType(Test::class.java) {
+    useJUnitPlatform()
+}
+
 dependencies {
 
     implementation(libs.bundles.android.base)
@@ -76,6 +80,8 @@ dependencies {
     testImplementation(libs.coroutines.test)
     testImplementation(libs.turbine)
     testImplementation(libs.mockk)
+
+    testRuntimeOnly(libs.junit5.engine)
 
     androidTestImplementation(libs.junit)
     androidTestImplementation(libs.turbine)
