@@ -10,5 +10,6 @@ suspend inline fun <reified T> apiCall(
     val response = call()
     response.body<T>()
 } catch (err: HttpException) {
+    err.printStackTrace()
     throw err
 }
