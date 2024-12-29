@@ -10,10 +10,9 @@ import com.aldyaz.univuniv.presentation.state.HomeState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.onStart
-import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -25,11 +24,7 @@ class HomeViewModel @Inject constructor(
 ) : BaseViewModel<HomeIntent>() {
 
     private val _state = MutableStateFlow(HomeState.Initial)
-    val state = _state.stateIn(
-        scope = viewModelScope,
-        started = SharingStarted.WhileSubscribed(5000),
-        initialValue = HomeState.Initial
-    )
+    val state = _state.asStateFlow()
 
     override fun onIntent(intent: HomeIntent) {
         when (intent) {
