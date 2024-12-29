@@ -9,9 +9,10 @@ import com.aldyaz.univuniv.presentation.state.SearchState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
 
@@ -24,23 +25,22 @@ class SearchViewModel @Inject constructor(
     private val _searchQuery = MutableStateFlow("")
 
     private val _state = MutableStateFlow(SearchState())
-    val state = _searchQuery
-        .debounce(300)
-        .flatMapLatest {
-            searchUniversitiesUseCase(it)
-        }.map { items ->
-            _state.updateState {
-                copy(
-                    data = List(items.size) {
-                        universityToPresentationMapper(items[it])
-                    }
-                )
+    val state = combine(
+        _state,
+        fetchSearch()
+    ) { state, items ->
+        var newState = state
+        newState = newState.copy(
+            data = List(items.size) {
+                universityToPresentationMapper(items[it])
             }
-        }.stateIn(
-            scope = viewModelScope,
-            started = SharingStarted.WhileSubscribed(5000),
-            initialValue = SearchState()
         )
+        newState
+    }.stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(5000),
+        initialValue = SearchState()
+    )
 
     override fun onIntent(intent: SearchIntent) {
         when (intent) {
@@ -49,4 +49,12 @@ class SearchViewModel @Inject constructor(
             }
         }
     }
+
+    private fun fetchSearch() = _searchQuery
+        .debounce(300)
+        .flatMapLatest {
+            if (it.isNotEmpty() || it.length > 1) searchUniversitiesUseCase(it) else flowOf(
+                emptyList()
+            )
+        }
 }
