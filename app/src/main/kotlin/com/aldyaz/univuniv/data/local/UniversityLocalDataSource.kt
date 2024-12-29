@@ -5,7 +5,9 @@ import kotlinx.coroutines.flow.Flow
 
 interface UniversityLocalDataSource {
 
-    fun getUniversities(name: String): Flow<List<UniversityDbModel>>
+    fun getUniversities(): Flow<List<UniversityDbModel>>
+
+    fun searchUniversities(query: String): Flow<List<UniversityDbModel>>
 
     suspend fun saveUniversities(items: List<UniversityDbModel>)
 

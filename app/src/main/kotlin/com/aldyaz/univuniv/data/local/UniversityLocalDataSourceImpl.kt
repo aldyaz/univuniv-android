@@ -12,18 +12,25 @@ class UniversityLocalDataSourceImpl @Inject constructor(
     private val dao: UniversityDao
 ) : UniversityLocalDataSource {
 
-    override fun getUniversities(name: String): Flow<List<UniversityDbModel>> {
+    override fun getUniversities(): Flow<List<UniversityDbModel>> {
         return flow {
             if (dao.isTableEmpty()) {
                 throw EmptyResultException()
             }
-            emitAll(
-                if (name.isNotEmpty()) {
-                    dao.getUniversitiesByName(name)
-                } else {
-                    dao.getUniversities()
-                }
-            )
+            emitAll(dao.getUniversities())
+        }
+    }
+
+    override fun searchUniversities(query: String): Flow<List<UniversityDbModel>> {
+        return flow {
+            if (dao.isTableEmpty())
+                throw EmptyResultException()
+
+            if (query.isEmpty()) {
+                emit(emptyList())
+            } else {
+                emitAll(dao.getUniversities(query))
+            }
         }
     }
 

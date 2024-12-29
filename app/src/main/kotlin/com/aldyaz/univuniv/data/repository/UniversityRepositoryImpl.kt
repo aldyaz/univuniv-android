@@ -25,27 +25,39 @@ class UniversityRepositoryImpl(
     private val exceptionToDomainMapper: ExceptionToDomainMapper
 ) : UniversityRepository {
 
-    override fun getUniversities(name: String): Flow<List<UniversityDomainModel>> =
-        localDataSource.getUniversities(name).map { items ->
+    override fun getUniversities(): Flow<List<UniversityDomainModel>> =
+        localDataSource.getUniversities().map { items ->
             List(items.size) {
                 universityDbToDomainMapper(items[it])
             }
         }.catch { err ->
             if (err is EmptyResultException) {
-                val cloudFlow = flow {
-                    when (val result = remoteDataSource.getUniversities()) {
-                        is HttpResult.Success -> {
-                            val items = List(result.data.size) {
-                                universityDtoToDomainMapper(result.data[it])
-                            }
-                            localDataSource.saveUniversities(items.map(universityToDbMapper))
-                            emit(items)
-                        }
-
-                        is HttpResult.Error -> throw exceptionToDomainMapper(result.exception)
-                    }
-                }
-                emitAll(cloudFlow)
+                emitAll(fetchRemoteUniversities())
             }
         }
+
+    override fun searchUniversities(query: String): Flow<List<UniversityDomainModel>> =
+        localDataSource.searchUniversities(query).map { items ->
+            List(items.size) {
+                universityDbToDomainMapper(items[it])
+            }
+        }.catch { err ->
+            if (err is EmptyResultException) {
+                emitAll(fetchRemoteUniversities())
+            }
+        }
+
+    private fun fetchRemoteUniversities() = flow {
+        when (val result = remoteDataSource.getUniversities()) {
+            is HttpResult.Success -> {
+                val items = List(result.data.size) {
+                    universityDtoToDomainMapper(result.data[it])
+                }
+                localDataSource.saveUniversities(items.map(universityToDbMapper))
+                emit(items)
+            }
+
+            is HttpResult.Error -> throw exceptionToDomainMapper(result.exception)
+        }
+    }
 }

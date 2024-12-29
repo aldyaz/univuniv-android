@@ -3,6 +3,7 @@ package com.aldyaz.univuniv.ui.search
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
@@ -87,7 +88,9 @@ fun SearchScaffold(
             SearchContent(
                 universities = state.data,
                 onClickItem = onClickItem,
-                modifier = Modifier.padding(contentPadding)
+                modifier = Modifier
+                    .padding(contentPadding)
+                    .fillMaxSize()
             )
         }
     )
