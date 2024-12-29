@@ -20,6 +20,7 @@ import com.aldyaz.univuniv.presentation.state.HomeState
 import com.aldyaz.univuniv.presentation.viewmodel.HomeViewModel
 import com.aldyaz.univuniv.ui.common.FullError
 import com.aldyaz.univuniv.ui.common.FullLoading
+import com.aldyaz.univuniv.ui.common.ScreenEnterObserver
 
 @Composable
 fun HomePage(
@@ -28,6 +29,10 @@ fun HomePage(
     viewModel: HomeViewModel = hiltViewModel()
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
+
+    ScreenEnterObserver {
+        viewModel.onIntent(HomeIntent.Fetch)
+    }
 
     HomeScaffold(
         state = state,

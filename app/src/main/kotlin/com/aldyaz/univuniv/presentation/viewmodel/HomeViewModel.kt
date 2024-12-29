@@ -31,10 +31,6 @@ class HomeViewModel @Inject constructor(
         initialValue = HomeState.Initial
     )
 
-    init {
-        onIntent(HomeIntent.Fetch)
-    }
-
     override fun onIntent(intent: HomeIntent) {
         when (intent) {
             is HomeIntent.Fetch -> fetchUniversities()
