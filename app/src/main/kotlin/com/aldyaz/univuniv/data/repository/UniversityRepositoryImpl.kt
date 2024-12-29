@@ -48,4 +48,12 @@ class UniversityRepositoryImpl(
                 emitAll(cloudFlow)
             }
         }
+
+    override fun getUniversitiesByName(name: String): Flow<List<UniversityDomainModel>> {
+        return localDataSource.getUniversities().map { items ->
+            List(items.size) {
+                universityDbToDomainMapper(items[it])
+            }
+        }
+    }
 }

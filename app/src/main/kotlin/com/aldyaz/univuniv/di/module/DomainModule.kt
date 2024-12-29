@@ -4,6 +4,7 @@ import com.aldyaz.univuniv.data.local.UniversityLocalDataSource
 import com.aldyaz.univuniv.data.remote.UniversityRemoteDataSource
 import com.aldyaz.univuniv.data.repository.UniversityRepositoryImpl
 import com.aldyaz.univuniv.domain.interactor.GetUniversitiesUseCase
+import com.aldyaz.univuniv.domain.interactor.SearchUniversitiesUseCase
 import com.aldyaz.univuniv.domain.mapper.ExceptionToDomainMapper
 import com.aldyaz.univuniv.domain.mapper.UniversityDbToDomainMapper
 import com.aldyaz.univuniv.domain.mapper.UniversityDtoToDomainMapper
@@ -53,4 +54,9 @@ class DomainModule {
     fun provideGetUniversitiesUseCase(
         universityRepository: UniversityRepository
     ): GetUniversitiesUseCase = GetUniversitiesUseCase(universityRepository)
+
+    @Provides
+    fun provideSearchUniversitiesUseCase(
+        universityRepository: UniversityRepository
+    ): SearchUniversitiesUseCase = SearchUniversitiesUseCase(universityRepository)
 }

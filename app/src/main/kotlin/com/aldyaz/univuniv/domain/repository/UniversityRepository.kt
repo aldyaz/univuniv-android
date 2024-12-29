@@ -7,4 +7,6 @@ interface UniversityRepository {
 
     fun getUniversities(): Flow<List<UniversityDomainModel>>
 
+    fun getUniversitiesByName(name: String): Flow<List<UniversityDomainModel>>
+
 }
