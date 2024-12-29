@@ -10,6 +10,6 @@ class SearchUniversitiesUseCase(
 ) : FlowUseCase<String, List<UniversityDomainModel>>() {
 
     override fun execute(param: String): Flow<List<UniversityDomainModel>> {
-        return repository.getUniversitiesByName(param)
+        return repository.getUniversities(param)
     }
 }

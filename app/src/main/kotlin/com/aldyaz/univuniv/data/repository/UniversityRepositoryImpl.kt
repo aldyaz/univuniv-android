@@ -25,8 +25,8 @@ class UniversityRepositoryImpl(
     private val exceptionToDomainMapper: ExceptionToDomainMapper
 ) : UniversityRepository {
 
-    override fun getUniversities(): Flow<List<UniversityDomainModel>> =
-        localDataSource.getUniversities().map { items ->
+    override fun getUniversities(name: String): Flow<List<UniversityDomainModel>> =
+        localDataSource.getUniversities(name).map { items ->
             List(items.size) {
                 universityDbToDomainMapper(items[it])
             }
@@ -48,12 +48,4 @@ class UniversityRepositoryImpl(
                 emitAll(cloudFlow)
             }
         }
-
-    override fun getUniversitiesByName(name: String): Flow<List<UniversityDomainModel>> {
-        return localDataSource.getUniversities().map { items ->
-            List(items.size) {
-                universityDbToDomainMapper(items[it])
-            }
-        }
-    }
 }

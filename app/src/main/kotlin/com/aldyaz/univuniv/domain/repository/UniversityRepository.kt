@@ -5,8 +5,6 @@ import kotlinx.coroutines.flow.Flow
 
 interface UniversityRepository {
 
-    fun getUniversities(): Flow<List<UniversityDomainModel>>
-
-    fun getUniversitiesByName(name: String): Flow<List<UniversityDomainModel>>
+    fun getUniversities(name: String): Flow<List<UniversityDomainModel>>
 
 }
