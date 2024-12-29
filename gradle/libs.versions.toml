@@ -6,7 +6,6 @@ junit = "4.13.2"
 android-junit = "1.2.1"
 espressoCore = "3.6.1"
 appcompat = "1.7.0"
-material = "1.12.0"
 activity = "1.9.3"
 lifecycle = "2.8.7"
 compose-plugin = "1.6.11"
@@ -20,6 +19,7 @@ room = "2.6.1"
 navigation = "2.8.5"
 hilt-compose = "1.2.0"
 turbine = "1.2.0"
+junit5 = "5.11.4"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "core-ktx" }
@@ -54,6 +54,7 @@ room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
 compose-navigation = { module = "androidx.navigation:navigation-compose", version.ref = "navigation" }
 hilt-navigation = { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "hilt-compose" }
 turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
+junit5 = { module = "org.junit.jupiter:junit-jupiter", version.ref = "junit5" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
