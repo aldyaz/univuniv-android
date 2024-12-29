@@ -21,6 +21,7 @@ hilt-compose = "1.2.0"
 turbine = "1.2.0"
 junit5 = "5.11.4"
 mockk = "1.13.14"
+coroutines = "1.10.1"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "core-ktx" }
@@ -58,6 +59,9 @@ turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
 junit5 = { module = "org.junit.jupiter:junit-jupiter", version.ref = "junit5" }
 mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
 mockk-android = { module = "io.mockk:mockk-android", version.ref = "mockk" }
+coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
+coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "coroutines" }
+coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "coroutines" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
@@ -74,3 +78,4 @@ ktor = ["ktor-core", "ktor-content-negotiation", "ktor-serialization", "ktor-aut
     "ktor-logging", "ktor-android"]
 pluto = ["pluto", "pluto-network", "pluto-ktor"]
 pluto-noop = ["pluto-noop", "pluto-network-noop", "pluto-ktor-noop"]
+coroutines = ["coroutines-core", "coroutines-android"]

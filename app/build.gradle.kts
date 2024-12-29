@@ -48,6 +48,7 @@ dependencies {
     implementation(libs.bundles.android.base)
     implementation(libs.bundles.lifecycle)
     implementation(libs.bundles.ktor)
+    implementation(libs.bundles.coroutines)
     implementation(libs.kotlinx.serialization)
     implementation(libs.hilt.android)
     implementation(libs.coil)
@@ -72,6 +73,7 @@ dependencies {
     ksp(libs.room.compiler)
 
     testImplementation(libs.junit5)
+    testImplementation(libs.coroutines.test)
     testImplementation(libs.turbine)
     testImplementation(libs.mockk)
 
