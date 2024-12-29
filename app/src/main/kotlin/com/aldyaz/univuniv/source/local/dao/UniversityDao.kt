@@ -21,4 +21,7 @@ interface UniversityDao {
     @Insert(onConflict = OnConflictStrategy.ABORT)
     fun saveUniversities(items: List<UniversityDbModel>)
 
+    @Query("SELECT (SELECT COUNT(*) FROM university) == 0")
+    fun isTableEmpty(): Boolean
+
 }
