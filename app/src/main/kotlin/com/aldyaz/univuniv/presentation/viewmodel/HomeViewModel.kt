@@ -5,7 +5,7 @@ import com.aldyaz.univuniv.core.presentation.BaseViewModel
 import com.aldyaz.univuniv.core.presentation.ExceptionToPresentationMapper
 import com.aldyaz.univuniv.domain.interactor.GetUniversitiesUseCase
 import com.aldyaz.univuniv.presentation.intent.HomeIntent
-import com.aldyaz.univuniv.presentation.mapper.UniversityToPresentationMapper
+import com.aldyaz.univuniv.presentation.mapper.UniversitiesToPresentationMapper
 import com.aldyaz.univuniv.presentation.state.HomeState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -19,7 +19,7 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val getUniversitiesUseCase: GetUniversitiesUseCase,
-    private val universityToPresentationMapper: UniversityToPresentationMapper,
+    private val universitiesToPresentationMapper: UniversitiesToPresentationMapper,
     private val exceptionToPresentationMapper: ExceptionToPresentationMapper
 ) : BaseViewModel<HomeIntent>() {
 
@@ -54,9 +54,7 @@ class HomeViewModel @Inject constructor(
                 _state.updateState {
                     copy(
                         loading = false,
-                        data = List(items.size) {
-                            universityToPresentationMapper(items[it])
-                        }
+                        data = universitiesToPresentationMapper(items)
                     )
                 }
             }
