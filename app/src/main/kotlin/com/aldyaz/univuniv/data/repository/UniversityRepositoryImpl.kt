@@ -1,5 +1,6 @@
 package com.aldyaz.univuniv.data.repository
 
+import com.aldyaz.univuniv.core.data.exception.EmptyResultException
 import com.aldyaz.univuniv.core.network.HttpResult
 import com.aldyaz.univuniv.data.local.UniversityLocalDataSource
 import com.aldyaz.univuniv.data.remote.UniversityRemoteDataSource
@@ -10,9 +11,9 @@ import com.aldyaz.univuniv.domain.mapper.UniversityToDbMapper
 import com.aldyaz.univuniv.domain.model.UniversityDomainModel
 import com.aldyaz.univuniv.domain.repository.UniversityRepository
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flatMapMerge
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.emitAll
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 
 class UniversityRepositoryImpl(
@@ -29,9 +30,9 @@ class UniversityRepositoryImpl(
             List(items.size) {
                 universityDbToDomainMapper(items[it])
             }
-        }.flatMapMerge { localItems ->
-            if (localItems.isEmpty()) {
-                flow {
+        }.catch { err ->
+            if (err is EmptyResultException) {
+                val cloudFlow = flow {
                     when (val result = remoteDataSource.getUniversities()) {
                         is HttpResult.Success -> {
                             val items = List(result.data.size) {
@@ -44,8 +45,7 @@ class UniversityRepositoryImpl(
                         is HttpResult.Error -> throw exceptionToDomainMapper(result.exception)
                     }
                 }
-            } else {
-                flowOf(localItems)
+                emitAll(cloudFlow)
             }
         }
 }
