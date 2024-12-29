@@ -7,11 +7,7 @@ import kotlinx.coroutines.flow.flowOf
 
 class FakeUniversityRepository : UniversityRepository {
 
-    override fun getUniversities(): Flow<List<UniversityDomainModel>> = flowOf(
-        dummyList()
-    )
-
-    fun dummyList() = listOf(
+    var dummyList = listOf(
         UniversityDomainModel(
             name = "Universitas Negeri Malang",
             country = "Indonesia",
@@ -31,4 +27,6 @@ class FakeUniversityRepository : UniversityRepository {
             webPages = listOf("https://ui.ac.id")
         ),
     )
+
+    override fun getUniversities(): Flow<List<UniversityDomainModel>> = flowOf(dummyList)
 }
