@@ -19,3 +19,5 @@ Indonesian campus directory Android app powered by [Hipo/university-domain-list-
   <img width="30%" height="50%" src="https://github.com/user-attachments/assets/81cc8a0c-db56-4bd4-a86b-31c6e39a9d8c" />
   <img width="30%" height="50%" src="https://github.com/user-attachments/assets/a5b95cca-ffe6-4d61-a629-efa77eb80732" />
 </p>
+
+https://github.com/user-attachments/assets/7abb947a-baaa-439c-a3a7-3ef3ea2218d6
