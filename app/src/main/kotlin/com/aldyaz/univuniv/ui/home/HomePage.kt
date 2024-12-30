@@ -54,7 +54,8 @@ fun HomeScaffold(
     Scaffold(
         topBar = {
             HomeAppBar(
-                onClickSearch = onClickSearch
+                onClickSearch = onClickSearch,
+                isShowSearchActionButton = state.success
             )
         },
         content = { contentPadding ->
