@@ -24,7 +24,7 @@ class SearchViewModel @Inject constructor(
     private val coroutinesContextProvider: CoroutinesContextProvider
 ) : BaseViewModel<SearchIntent>() {
 
-    private val _state = MutableStateFlow(SearchState())
+    private val _state = MutableStateFlow(SearchState.Initial)
     val state = _state.asStateFlow()
 
     override fun onIntent(intent: SearchIntent) {
