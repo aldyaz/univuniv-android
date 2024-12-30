@@ -1,68 +1,105 @@
-package com.aldyaz.univuniv.ui.home
+package com.aldyaz.univuniv.ui.search
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.aldyaz.univuniv.presentation.intent.HomeIntent
+import com.aldyaz.univuniv.R
+import com.aldyaz.univuniv.presentation.intent.SearchIntent
 import com.aldyaz.univuniv.presentation.model.UniversityPresentationModel
-import com.aldyaz.univuniv.presentation.state.HomeState
-import com.aldyaz.univuniv.presentation.viewmodel.HomeViewModel
+import com.aldyaz.univuniv.presentation.state.SearchState
+import com.aldyaz.univuniv.presentation.viewmodel.SearchViewModel
 import com.aldyaz.univuniv.ui.common.FullError
 import com.aldyaz.univuniv.ui.common.FullLoading
 import com.aldyaz.univuniv.ui.common.ScreenEnterObserver
+import com.aldyaz.univuniv.ui.home.HomeUniversityItem
 
 @Composable
-fun HomePage(
-    onClickSearch: () -> Unit,
+fun SearchPage(
     onClickItem: (String) -> Unit,
-    viewModel: HomeViewModel = hiltViewModel()
+    viewModel: SearchViewModel = hiltViewModel()
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
 
     ScreenEnterObserver {
-        viewModel.onIntent(HomeIntent.Fetch)
+        viewModel.onIntent(SearchIntent.Fetch())
     }
 
-    HomeScaffold(
+    SearchScaffold(
         state = state,
-        onClickSearch = onClickSearch,
+        onQueryChange = {
+            viewModel.onIntent(SearchIntent.Fetch(it))
+        },
         onClickItem = onClickItem,
-        onClickRetry = {
-            viewModel.onIntent(HomeIntent.Fetch)
+        onRetryClick = {
+            viewModel.onIntent(SearchIntent.Fetch())
         }
     )
 }
 
 @Composable
-fun HomeScaffold(
-    state: HomeState,
-    onClickSearch: () -> Unit,
+fun SearchScaffold(
+    state: SearchState,
+    onQueryChange: (String) -> Unit,
     onClickItem: (String) -> Unit,
-    onClickRetry: () -> Unit
+    onRetryClick: () -> Unit
 ) {
     Scaffold(
         topBar = {
-            HomeAppBar(
-                onClickSearch = onClickSearch,
-                isShowSearchActionButton = state.success
+            Surface(
+                contentColor = MaterialTheme.colorScheme.onSurface,
+                modifier = Modifier.fillMaxWidth(),
+                content = {
+                    Box(
+                        modifier = Modifier
+                            .padding(
+                                vertical = 8.dp,
+                                horizontal = 16.dp
+                            )
+                            .statusBarsPadding()
+                            .fillMaxWidth(),
+                        content = {
+                            var textQuery by remember {
+                                mutableStateOf(TextFieldValue())
+                            }
+                            SearchTextField(
+                                value = textQuery,
+                                onValueChange = {
+                                    textQuery = it
+                                    onQueryChange(it.text)
+                                },
+                                hint = stringResource(R.string.label_search),
+                                modifier = Modifier.fillMaxWidth()
+                            )
+                        }
+                    )
+                }
             )
         },
         content = { contentPadding ->
-            HomeContent(
+            SearchContent(
                 state = state,
-                onClickRetry = onClickRetry,
                 onClickItem = onClickItem,
+                onRetryClick = onRetryClick,
                 modifier = Modifier
                     .padding(contentPadding)
                     .fillMaxSize()
@@ -72,10 +109,10 @@ fun HomeScaffold(
 }
 
 @Composable
-fun HomeContent(
-    state: HomeState,
-    onClickRetry: () -> Unit,
+fun SearchContent(
+    state: SearchState,
     onClickItem: (String) -> Unit,
+    onRetryClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Box(
@@ -90,13 +127,13 @@ fun HomeContent(
 
                 state.isError -> {
                     FullError(
-                        onRetryClick = onClickRetry,
+                        onRetryClick = onRetryClick,
                         modifier = Modifier.fillMaxSize()
                     )
                 }
 
-                state.success -> {
-                    HomeListContent(
+                state.isSuccess -> {
+                    SearchList(
                         universities = state.data,
                         onClickItem = onClickItem
                     )
@@ -107,7 +144,7 @@ fun HomeContent(
 }
 
 @Composable
-fun HomeListContent(
+fun SearchList(
     universities: List<UniversityPresentationModel>,
     onClickItem: (String) -> Unit,
     modifier: Modifier = Modifier

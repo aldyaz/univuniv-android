@@ -7,7 +7,7 @@ interface UniversityLocalDataSource {
 
     fun getUniversities(): Flow<List<UniversityDbModel>>
 
-    fun getUniversitiesByName(name: String): Flow<List<UniversityDbModel>>
+    fun searchUniversities(query: String): Flow<List<UniversityDbModel>>
 
     suspend fun saveUniversities(items: List<UniversityDbModel>)
 

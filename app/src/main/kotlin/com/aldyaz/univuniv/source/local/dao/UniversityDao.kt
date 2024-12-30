@@ -13,9 +13,9 @@ interface UniversityDao {
     @Query("SELECT * FROM university")
     fun getUniversities(): Flow<List<UniversityDbModel>>
 
-    @Query("SELECT * FROM university WHERE name=:name")
-    fun getUniversitiesByName(
-        name: String
+    @Query("SELECT * FROM university WHERE name LIKE '%' || :query || '%'")
+    fun getUniversities(
+        query: String
     ): Flow<List<UniversityDbModel>>
 
     @Insert(onConflict = OnConflictStrategy.ABORT)
