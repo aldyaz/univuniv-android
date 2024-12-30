@@ -5,17 +5,20 @@ import com.aldyaz.univuniv.core.domain.exception.CloudApiException
 import com.aldyaz.univuniv.core.domain.exception.UnknownException
 import com.aldyaz.univuniv.core.presentation.ErrorPresentationModel
 import com.aldyaz.univuniv.core.presentation.ExceptionToPresentationMapper
+import com.aldyaz.univuniv.core.util.CoroutinesContextProvider
 import com.aldyaz.univuniv.domain.interactor.GetUniversitiesUseCase
 import com.aldyaz.univuniv.domain.model.UniversityDomainModel
 import com.aldyaz.univuniv.presentation.intent.HomeIntent
 import com.aldyaz.univuniv.presentation.mapper.UniversitiesToPresentationMapper
 import com.aldyaz.univuniv.presentation.model.UniversityPresentationModel
 import com.aldyaz.univuniv.presentation.state.HomeState
+import com.aldyaz.univuniv.utils.CoroutineTestDispatcherProvider
 import com.aldyaz.univuniv.utils.CoroutineTestExtension
 import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.test.TestDispatcher
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.BeforeEach
@@ -30,6 +33,8 @@ class HomeViewModelTest {
         mockk(relaxed = true)
     private val exceptionToPresentationMapper: ExceptionToPresentationMapper = mockk(relaxed = true)
 
+    private val testDispatcher: CoroutinesContextProvider = CoroutineTestDispatcherProvider()
+
     private lateinit var viewModel: HomeViewModel
 
     @BeforeEach
@@ -37,7 +42,8 @@ class HomeViewModelTest {
         viewModel = HomeViewModel(
             getUniversitiesUseCase = getUniversitiesUseCase,
             universitiesToPresentationMapper = universitiesToPresentationMapper,
-            exceptionToPresentationMapper = exceptionToPresentationMapper
+            exceptionToPresentationMapper = exceptionToPresentationMapper,
+            coroutinesContextProvider = testDispatcher
         )
     }
 
