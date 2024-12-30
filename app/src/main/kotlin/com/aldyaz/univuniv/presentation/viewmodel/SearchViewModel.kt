@@ -5,7 +5,7 @@ import com.aldyaz.univuniv.core.presentation.BaseViewModel
 import com.aldyaz.univuniv.core.presentation.ExceptionToPresentationMapper
 import com.aldyaz.univuniv.domain.interactor.SearchUniversitiesUseCase
 import com.aldyaz.univuniv.presentation.intent.SearchIntent
-import com.aldyaz.univuniv.presentation.mapper.UniversityToPresentationMapper
+import com.aldyaz.univuniv.presentation.mapper.UniversitiesToPresentationMapper
 import com.aldyaz.univuniv.presentation.state.SearchState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -19,7 +19,7 @@ import javax.inject.Inject
 @HiltViewModel
 class SearchViewModel @Inject constructor(
     private val searchUniversitiesUseCase: SearchUniversitiesUseCase,
-    private val universityToPresentationMapper: UniversityToPresentationMapper,
+    private val universitiesToPresentationMapper: UniversitiesToPresentationMapper,
     private val exceptionToPresentationMapper: ExceptionToPresentationMapper
 ) : BaseViewModel<SearchIntent>() {
 
@@ -54,9 +54,7 @@ class SearchViewModel @Inject constructor(
                 _state.updateState {
                     copy(
                         loading = false,
-                        data = List(items.size) {
-                            universityToPresentationMapper(items[it])
-                        }
+                        data = universitiesToPresentationMapper(items)
                     )
                 }
             }
