@@ -41,6 +41,13 @@ android {
     buildFeatures {
         compose = true
     }
+
+    packaging {
+        resources {
+            pickFirsts += "META-INF/LICENSE.md"
+            pickFirsts += "META-INF/LICENSE-notice.md"
+        }
+    }
 }
 
 tasks.withType(Test::class.java) {
