@@ -22,6 +22,7 @@ turbine = "1.2.0"
 junit5 = "5.11.4"
 mockk = "1.13.14"
 coroutines = "1.10.1"
+browser = "1.5.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "core-ktx" }
@@ -63,6 +64,7 @@ mockk-android = { module = "io.mockk:mockk-android", version.ref = "mockk" }
 coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
 coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "coroutines" }
 coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "coroutines" }
+androidx-browser = { module = "androidx.browser:browser", version.ref = "browser" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
@@ -73,7 +75,7 @@ android-parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref 
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 
 [bundles]
-android-base = ["androidx-core-ktx", "androidx-activity-compose", "androidx-appcompat"]
+android-base = ["androidx-core-ktx", "androidx-activity-compose", "androidx-appcompat", "androidx-browser"]
 lifecycle = ["lifecycle-viewmodel-ktx", "lifecycle-livedata-ktx", "lifecycle-runtime-ktx"]
 ktor = ["ktor-core", "ktor-content-negotiation", "ktor-serialization", "ktor-auth",
     "ktor-logging", "ktor-android"]
