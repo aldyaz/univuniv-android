@@ -2,6 +2,9 @@
 
 package com.aldyaz.univuniv.ui.home
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.scaleIn
+import androidx.compose.animation.scaleOut
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -27,7 +30,11 @@ fun HomeAppBar(
             )
         },
         actions = {
-            if (isShowSearchActionButton)
+            AnimatedVisibility(
+                visible = isShowSearchActionButton,
+                enter = scaleIn(),
+                exit = scaleOut()
+            ) {
                 IconButton(
                     onClick = onClickSearch,
                     content = {
@@ -37,6 +44,7 @@ fun HomeAppBar(
                         )
                     }
                 )
+            }
         }
     )
 }
