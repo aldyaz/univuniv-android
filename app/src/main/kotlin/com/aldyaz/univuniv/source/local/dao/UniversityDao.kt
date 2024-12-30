@@ -18,7 +18,10 @@ interface UniversityDao {
         name: String
     ): Flow<List<UniversityDbModel>>
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun saveUniversities(vararg item: UniversityDbModel)
+    @Insert(onConflict = OnConflictStrategy.ABORT)
+    fun saveUniversities(items: List<UniversityDbModel>)
+
+    @Query("SELECT (SELECT COUNT(*) FROM university) == 0")
+    fun isTableEmpty(): Boolean
 
 }
