@@ -1,5 +1,10 @@
 package com.aldyaz.univuniv.ui.search
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.scaleIn
+import androidx.compose.animation.scaleOut
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
@@ -40,7 +45,11 @@ fun SearchTextField(
             )
         },
         trailingIcon = {
-            if (showClearButton) {
+            AnimatedVisibility(
+                visible = showClearButton,
+                enter = scaleIn(),
+                exit = scaleOut()
+            ) {
                 IconButton(
                     onClick = {
                         onValueChange(TextFieldValue())
