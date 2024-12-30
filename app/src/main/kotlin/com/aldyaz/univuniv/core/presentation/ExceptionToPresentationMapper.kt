@@ -9,7 +9,7 @@ class ExceptionToPresentationMapper : (Throwable) -> ErrorPresentationModel {
         return when (p1) {
             is DomainException -> {
                 when (p1) {
-                    is CloudApiException -> ErrorPresentationModel.CloudApiError(p1.errorMessage)
+                    is CloudApiException -> ErrorPresentationModel.CloudApiError(p1.message)
                     else -> ErrorPresentationModel.Unknown(p1.message ?: "Network error!")
                 }
             }

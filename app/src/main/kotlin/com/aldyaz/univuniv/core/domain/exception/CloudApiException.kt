@@ -1,5 +1,5 @@
 package com.aldyaz.univuniv.core.domain.exception
 
 class CloudApiException(
-    val errorMessage: String
+    override val message: String
 ) : DomainException()
