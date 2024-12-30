@@ -3,12 +3,12 @@ package com.aldyaz.univuniv.presentation.viewmodel
 import androidx.lifecycle.viewModelScope
 import com.aldyaz.univuniv.core.presentation.BaseViewModel
 import com.aldyaz.univuniv.core.presentation.ExceptionToPresentationMapper
+import com.aldyaz.univuniv.core.util.CoroutinesContextProvider
 import com.aldyaz.univuniv.domain.interactor.GetUniversitiesUseCase
 import com.aldyaz.univuniv.presentation.intent.HomeIntent
 import com.aldyaz.univuniv.presentation.mapper.UniversitiesToPresentationMapper
 import com.aldyaz.univuniv.presentation.state.HomeState
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
@@ -20,7 +20,8 @@ import javax.inject.Inject
 class HomeViewModel @Inject constructor(
     private val getUniversitiesUseCase: GetUniversitiesUseCase,
     private val universitiesToPresentationMapper: UniversitiesToPresentationMapper,
-    private val exceptionToPresentationMapper: ExceptionToPresentationMapper
+    private val exceptionToPresentationMapper: ExceptionToPresentationMapper,
+    private val coroutinesContextProvider: CoroutinesContextProvider
 ) : BaseViewModel<HomeIntent>() {
 
     private val _state = MutableStateFlow(HomeState.Initial)
@@ -32,7 +33,7 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    private fun fetchUniversities() = viewModelScope.launch(Dispatchers.IO) {
+    private fun fetchUniversities() = viewModelScope.launch(coroutinesContextProvider.io) {
         getUniversitiesUseCase(Unit)
             .onStart {
                 _state.updateState {
