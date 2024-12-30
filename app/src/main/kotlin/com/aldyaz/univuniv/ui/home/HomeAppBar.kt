@@ -16,7 +16,8 @@ import com.aldyaz.univuniv.R
 
 @Composable
 fun HomeAppBar(
-    onClickSearch: () -> Unit
+    onClickSearch: () -> Unit,
+    isShowSearchActionButton: Boolean = false
 ) {
     TopAppBar(
         title = {
@@ -26,15 +27,16 @@ fun HomeAppBar(
             )
         },
         actions = {
-            IconButton(
-                onClick = onClickSearch,
-                content = {
-                    Icon(
-                        imageVector = Icons.Filled.Search,
-                        contentDescription = "home-search"
-                    )
-                }
-            )
+            if (isShowSearchActionButton)
+                IconButton(
+                    onClick = onClickSearch,
+                    content = {
+                        Icon(
+                            imageVector = Icons.Filled.Search,
+                            contentDescription = "home-search"
+                        )
+                    }
+                )
         }
     )
 }
